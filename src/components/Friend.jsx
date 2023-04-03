@@ -1,5 +1,5 @@
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
-import { Box, IconButton, useTheme, Typography } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setFriends } from "state";
@@ -26,8 +26,10 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
       `http://localhost:3001/users/${_id}/${friendId}`,
       {
         method: "PATCH",
-        headers: { Authorization: `Bearer ${token}` },
-        "content-Type": "application/json",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       }
     );
     const data = await response.json();
@@ -35,31 +37,33 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   };
 
   return (
-    <FlexBetween gap="1rem">
-      <UserImage image={userPicturePath} size="55px" />
-      <Box
-        onClick={() => {
-          navigate(`/profile/${friendId}`);
-          navigate(0);
-        }}
-      >
-        <Typography
-          color={main}
-          variant="h5"
-          fontWeight="500"
-          sx={{
-            "&:hover": {
-              color: palette.primary.light,
-              cursor: "pointer",
-            },
+    <FlexBetween>
+      <FlexBetween gap="1rem">
+        <UserImage image={userPicturePath} size="55px" />
+        <Box
+          onClick={() => {
+            navigate(`/profile/${friendId}`);
+            navigate(0);
           }}
         >
-          {name}
-        </Typography>
-        <Typography color={medium} fontSize="0.75rem">
-          {subtitle}
-        </Typography>
-      </Box>
+          <Typography
+            color={main}
+            variant="h5"
+            fontWeight="500"
+            sx={{
+              "&:hover": {
+                color: palette.primary.light,
+                cursor: "pointer",
+              },
+            }}
+          >
+            {name}
+          </Typography>
+          <Typography color={medium} fontSize="0.75rem">
+            {subtitle}
+          </Typography>
+        </Box>
+      </FlexBetween>
       <IconButton
         onClick={() => patchFriend()}
         sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
